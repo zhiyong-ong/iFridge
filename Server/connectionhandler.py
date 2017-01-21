@@ -28,14 +28,14 @@ class ConnectionHandler():
 		    #start new thread takes 1st argument as a function name to be run, second is the tuple of arguments to the function.
 			_thread.start_new_thread(self.clientthread ,(conn,))
 	def clientthread(self, conn):
-		conn.send('Welcome to the server.'.encode())
+		#conn.send('Welcome to the server.'.encode())
 		try:
 			while True:
 				data = conn.recv(1024).decode()
 
+				print('Received input: ' + data)
 				if not data:
 					break
-				print('Received input: ' + data)
 				conn.sendall((json.dumps(self.responseManager.process(data))+'\r\n').encode())
 			conn.close()
 		except:

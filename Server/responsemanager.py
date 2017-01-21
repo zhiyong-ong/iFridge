@@ -4,7 +4,14 @@ class ResponseManager():
 	def __init__(self):
 		pass
 	def process(self, content):
-		if content.startswith('recipe'):
-			return {'pen':1,'pineapple':1,'apple':0}
+		if 'recipe' in content:
+			return {'FridgeItems':
+				[
+					{'itemName': 'pineapple',
+					 'itemCount': 5},
+					{'itemName': 'apple',
+					'itemCount': 5}
+				]
+			}
 		else:
 			return 'Received input: ' + content
