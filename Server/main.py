@@ -1,8 +1,10 @@
 import sys
 
 import connectionhandler
+import responsemanager
 
-cH = connectionhandler.ConnectionHandler(5000)
+rM = responsemanager.ResponseManager()
+cH = connectionhandler.ConnectionHandler(5000, rM)
  
 if cH.start():
     cH.run()

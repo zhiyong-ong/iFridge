@@ -3,8 +3,9 @@ import _thread
 import json
 
 class ConnectionHandler():
-	def __init__(self,port):
+	def __init__(self,port,responseManager):
 		self.port = port
+		self.responseManager = responseManager
 
 	def start(self):
 		self.server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -31,16 +32,11 @@ class ConnectionHandler():
 		try:
 			while True:
 				data = conn.recv(1024).decode()
-				reply = 'Received input: ' + data
-
-				test = {'pen':1,'pineapple':1,'apple':0}
-				testJSON = json.dumps(test)
-				if data.startswith("recipe"):
-					conn.sendall(testJSON.encode())
 
 				if not data:
 					break
-				conn.sendall(reply.encode())
+				print('Received input: ' + data)
+				conn.sendall((json.dumps(self.responseManager.process(data))+'\r\n').encode())
 			conn.close()
 		except:
 			conn.close()
