@@ -10,7 +10,7 @@ class ConnectionHandler():
 	def start(self):
 		self.server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 		try:
-			# Local IP address is 172.23.181.78
+			# Local IP address is 172.23.183.1
 			self.server.bind(('', self.port))
 		except:
 			print('An error has occured while binding to port.')
