@@ -1,5 +1,6 @@
 import socket
 import _thread
+import json
 
 class ConnectionHandler():
 	def __init__(self,port):
@@ -31,6 +32,12 @@ class ConnectionHandler():
 			while True:
 				data = conn.recv(1024).decode()
 				reply = 'Received input: ' + data
+
+				test = {'pen':1,'pineapple':1,'apple':0}
+				testJSON = json.dumps(test)
+				if data.startswith("recipe"):
+					conn.sendall(testJSON.encode())
+
 				if not data:
 					break
 				conn.sendall(reply.encode())
