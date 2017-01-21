@@ -1,5 +1,6 @@
 import socket
 import sys
+import _thread
 
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
@@ -14,18 +15,18 @@ s.listen(10)
 print('Listening on port 5000')
 def clientthread(conn):
     #Sending message to connected client
-    conn.send('Welcome to the server. Type something and hit enter\n') #send only takes string
+    conn.send('Welcome to the server. Type something and hit enter\n'.encode()) #send only takes string
      
     #infinite loop so that function do not terminate and thread do not end.
     while True:
          
         #Receiving from client
-        data = conn.recv(1024)
-        reply = 'OK...' + data
+        data = conn.recv(1024).decode()
+        reply = 'Received input: ' + data
         if not data: 
             break
      
-        conn.sendall(reply)
+        conn.sendall(reply.encode())
      
     #came out of loop
     conn.close()
@@ -37,6 +38,6 @@ while 1:
     print ('Connected with ' + addr[0] + ':' + str(addr[1]))
      
     #start new thread takes 1st argument as a function name to be run, second is the tuple of arguments to the function.
-    start_new_thread(clientthread ,(conn,))
+    _thread.start_new_thread(clientthread ,(conn,))
  
 s.close()
