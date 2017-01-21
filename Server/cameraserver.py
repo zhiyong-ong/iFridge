@@ -1,10 +1,12 @@
 import socket
 import threading
+import queue
 
 class CameraServer(threading.Thread):
 	def __init__(self, port):
 		threading.Thread.__init__(self)
 		self.port = port
+		self.queue = queue.Queue()
 	def initialize(self):
 		self.server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 		try:
@@ -23,14 +25,20 @@ class CameraServer(threading.Thread):
 		while True:
 			conn, addr = self.server.accept()
 			print('Connected with ' + addr[0] + ':' + str(addr[1]))
-			f = open('capture.jpg','wb')
+			l = conn.recv(1024)
+			total = l
 			l = conn.recv(1024)
 			while (l):
-				f.write(l)
+				total += l
 				l = conn.recv(1024)
-			f.close()
 			print('Done Receiving')
 			conn.close()
+
+			# Possible bug due to aliasing. If images keep
+			# getting replaced, do a deep copy of 'total' before
+			# putting it into queue
+			self.queue.put(total)
+
 
 
 
