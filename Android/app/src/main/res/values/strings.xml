@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">iFridge</string>
+
+    <!--Placeholder Strings-->
+    <string name="updated_time_text">Last updated at 3:00PM</string>
+    <string name="placeholder_text_item_name">Apple</string>
+    <string name="placeholder_text_item_count">5</string>
+</resources>
